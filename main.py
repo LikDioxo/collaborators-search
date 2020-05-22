@@ -1,14 +1,8 @@
-from bfs import Collaboration
-from scholarly import search_author
-
+from coauthors_search.integration.scholar import ScholarSource
+from coauthors_search.utils import Fetch
 
 if __name__ == '__main__':
-    test = Collaboration(
-        first_author=next(search_author("Андрій Стрюк")),
-        second_author=next(search_author("Рашевська Наталя")),
-        level=None,
-        collaboration_path=None
-    )
-    test.bfs()
-    print(test.level)
-    print(test.collaboration_path)
+    test = Fetch(ScholarSource())
+    a = test.fetch_author('Андрій Стрюк')
+    for e in a:
+        print(e)
