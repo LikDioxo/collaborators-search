@@ -10,7 +10,7 @@ class ScholarSource(Source):
         for author in search_author(credentials):
             author.fill()
             contributors = [
-                AuthorCredentials(name=e.name, affiliation=e.affiliation)
+                AuthorCredentials(name=e.name)
                 for e in author.coauthors
             ]
             yield Author(

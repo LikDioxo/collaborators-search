@@ -5,7 +5,6 @@ from typing import Dict, List
 @dataclass
 class AuthorCredentials:
     name: str
-    affiliation: str
 
 
 @dataclass

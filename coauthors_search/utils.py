@@ -1,5 +1,4 @@
 from coauthors_search.sources import Source
-from coauthors_search.structures import Author
 
 
 class Fetch:
