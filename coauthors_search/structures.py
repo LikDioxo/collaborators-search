@@ -32,7 +32,6 @@ class Tree:
         while queue:
             v = queue.pop(0)
             for w in v.coauthors:
-                print(w)
                 w = w._source.fetch_by_credentials(w)
                 if level[w.id] is None:
                     level[w.id] = level[v.id] + [w]
