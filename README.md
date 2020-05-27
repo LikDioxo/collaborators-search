@@ -14,8 +14,6 @@ configuration:
     additional_nodes - describes how many additional coauthors will be displayed.
     addition_branch_color - describes the colors of links between main branch node and additional coauthor node.
     main_branch_color - describes the color of links between main branch nodes.
-    file_location - describes the path where the generated file will be located.
-    file_name - describes the file name.
 
 
 You need to download graphviz exe from: https://www.graphviz.org/download/
