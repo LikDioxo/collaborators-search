@@ -19,7 +19,7 @@ class Author:
     url_picture: str
     _source: str
     picture_path: str = None
-    
+
     def get_short_name(self, quantity=25):
         return self.name[:quantity] + "..."
 

@@ -6,6 +6,7 @@ from coauthors_search.structures import Tree
 from coauthors_search.structures import Author
 from coauthors_search.utils import Fetch
 
+
 def generate_graph(tree: Tree, target: Author, configuration: Dict[str, Any]):
     graph = None
 

@@ -10,6 +10,7 @@ if __name__ == '__main__':
     pool = Pool()
     test = Fetch(ScholarSource())
 
+
     # t = test.fetch_author_by_name("Sergey Semerikov | Serhiy O. Semerikov | Сергій Олексійович Семеріков | Сергей Алексеевич Семериков")[0]
     # print(t.get_short_name())
 
