@@ -4,7 +4,7 @@ from graphviz import Graph, Digraph
 
 from coauthors_search.structures import Tree
 from coauthors_search.structures import Author
-
+from coauthors_search.utils import Fetch
 
 def generate_graph(tree: Tree, target: Author, configuration: Dict[str, Any]):
     graph = None
@@ -26,14 +26,14 @@ def generate_graph(tree: Tree, target: Author, configuration: Dict[str, Any]):
     previous_node = None
     nodes = []
     for node in main_branch:
-        test(node)
+        Fetch.fetch_image(node)
         additional_nodes = 0
         nodes.append(node.id)
 
-        for additional_node in tree.tree[node.id]: #TODO: tree.tree[node.id] is a path not childs! fix
+        for additional_node in node.coauthors: #TODO: tree.tree[node.id] is a path not childs! fix
             if additional_node.id not in nodes and additional_nodes <= additional_nodes_limit:
                 print(additional_node)
-                test(additional_node)
+                Fetch.fetch_image(additional_node)
                 additional_nodes += 1
                 graph.node(
                     str(additional_node.id),
@@ -87,6 +87,4 @@ def generate_graph(tree: Tree, target: Author, configuration: Dict[str, Any]):
 
 def test(author: Author):
     from coauthors_search.utils import Fetch
-    from coauthors_search.sources import Source
-    f = Fetch(Source())
-    f.fetch_image(author)
+    Fetch.fetch_image(author)

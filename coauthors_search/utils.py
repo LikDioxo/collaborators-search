@@ -1,5 +1,7 @@
+from multiprocessing import Pool
 from requests import get
 from shutil import copyfileobj
+from typing import List
 
 from coauthors_search.sources import Source
 from coauthors_search.structures import AuthorCredentials, Author
@@ -15,7 +17,14 @@ class Fetch:
     def fetch_author_by_credentials(self, credentials: AuthorCredentials):
         return self.source.fetch_by_credentials(credentials)
 
-    def fetch_image(self, author: Author):
+    def fetch_multiple_authors(self, names: List[str], pool: Pool):
+        res = []
+        for i in range(0, len(names), 4):
+            res.extend(pool.map(self.fetch_author_by_name, names[i:i + 4]))
+        return res
+
+    @staticmethod
+    def fetch_image(author: Author):
         file_path = f'images/{author.id}.png'
         author.picture_path = file_path
         with open(file_path, 'wb') as file:
@@ -27,3 +36,4 @@ class Fetch:
                 resp.raw.decode_content = True
                 copyfileobj(resp.raw, file)
                 del resp
+

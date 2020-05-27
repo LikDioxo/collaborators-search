@@ -1,6 +1,6 @@
 from collections import defaultdict
 from dataclasses import dataclass
-from typing import Dict, List
+from typing import Dict, List, Union
 
 
 @dataclass
@@ -15,7 +15,7 @@ class Author:
     id: str
     name: str
     affiliation: str
-    coauthors: List[AuthorCredentials]
+    coauthors: List[Union[AuthorCredentials, "Author"]]
     url_picture: str
     _source: str
     picture_path: str = None
@@ -31,8 +31,10 @@ class Tree:
         level[root.id] = [root]
         while queue:
             v = queue.pop(0)
-            for w in v.coauthors:
-                w = w._source.fetch_by_credentials(w)
+            for i in range(len(v.coauthors)):
+                v.coauthors[i] = v.coauthors[i]._source.fetch_by_credentials(v.coauthors[i])
+                w = v.coauthors[i]
+
                 if level[w.id] is None:
                     level[w.id] = level[v.id] + [w]
                     queue.append(w)
