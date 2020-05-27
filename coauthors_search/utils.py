@@ -18,10 +18,7 @@ class Fetch:
         return self.source.fetch_by_credentials(credentials)
 
     def fetch_multiple_authors(self, names: List[str], pool: Pool):
-        res = []
-        for i in range(0, len(names), 4):
-            res.extend(pool.map(self.fetch_author_by_name, names[i:i + 4]))
-        return res
+        return pool.map(self.fetch_author_by_name, names)
 
     @staticmethod
     def fetch_image(author: Author):

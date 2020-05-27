@@ -15,11 +15,13 @@ class Author:
     id: str
     name: str
     affiliation: str
-    coauthors: List[Union[AuthorCredentials, "Author"]]
+    coauthors: List[AuthorCredentials]
     url_picture: str
     _source: str
     picture_path: str = None
 
+    def get_short_name(self, quantity=25):
+        return self.name[:quantity] + "..."
 
 @dataclass
 class Tree:
@@ -31,10 +33,8 @@ class Tree:
         level[root.id] = [root]
         while queue:
             v = queue.pop(0)
-            for i in range(len(v.coauthors)):
-                v.coauthors[i] = v.coauthors[i]._source.fetch_by_credentials(v.coauthors[i])
-                w = v.coauthors[i]
-
+            for w in v.coauthors:
+                w = w._source.fetch_by_credentials(w)
                 if level[w.id] is None:
                     level[w.id] = level[v.id] + [w]
                     queue.append(w)

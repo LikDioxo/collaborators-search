@@ -30,7 +30,7 @@ def generate_graph(tree: Tree, target: Author, configuration: Dict[str, Any]):
         additional_nodes = 0
         nodes.append(node.id)
 
-        for additional_node in node.coauthors: #TODO: tree.tree[node.id] is a path not childs! fix
+        for additional_node in node.coauthors:
             if additional_node.id not in nodes and additional_nodes <= additional_nodes_limit:
                 print(additional_node)
                 Fetch.fetch_image(additional_node)
