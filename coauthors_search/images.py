@@ -70,10 +70,9 @@ def generate_graph(tree: Tree, target: Author, configuration: Dict[str, Any]):
                         'height': '1',
                         'imagescale': 'true',
                         'fontsize': '8',
-                        'color': additional_branch_color
                     }
                 )
-                graph.edge(node.id, additional_node.id)
+                graph.edge(node.id, additional_node.id, _attributes={'color': additional_branch_color})
             else:
                 break
 
@@ -94,12 +93,11 @@ def generate_graph(tree: Tree, target: Author, configuration: Dict[str, Any]):
                 'height': '1',
                 'imagescale': 'true',
                 'fontsize': '8',
-                'color': main_branch_color
             }
         )
 
         if previous_node is not None:
-            graph.edge(previous_node.id, node.id)
+            graph.edge(previous_node.id, node.id, _attributes={'color': main_branch_color})
         previous_node = node
 
     graph.node('legend', '', {
@@ -119,6 +117,7 @@ def generate_graph(tree: Tree, target: Author, configuration: Dict[str, Any]):
             </TABLE>
            >""",
         'shape': 'plaintext',
+        'fontsize': '8'
     })
 
     graph.view(cleanup=True)
