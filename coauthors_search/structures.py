@@ -23,6 +23,11 @@ class Author:
     def get_short_name(self, quantity=25):
         return self.name[:quantity] + "..."
 
+    def __eq__(self, other):
+        if self.id == other.id:
+            return True
+        return False
+
 
 @dataclass
 class Tree:
