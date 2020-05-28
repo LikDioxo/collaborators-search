@@ -23,6 +23,7 @@ class Author:
     def get_short_name(self, quantity=25):
         return self.name[:quantity] + "..."
 
+
 @dataclass
 class Tree:
     tree: Dict[str, List[Author]] = None

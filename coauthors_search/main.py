@@ -24,10 +24,10 @@ if __name__ == '__main__':
     b = test.fetch_author_by_name('Наталя Рашевська')[0]
     my_tree = Tree()
     my_tree.create_tree(a, b)
-    # my_configuration = {
-    #     'graph_type': 'directed',
-    #     'format': 'png',
-    #     'additional_nodes': 2
-    # }
+    my_configuration = {
+        'graph_type': 'directed',
+        'format': 'png',
+        'additional_nodes': 2
+    }
     print(my_tree.tree)
-    # generate_graph(my_tree, b, my_configuration)
+    generate_graph(my_tree, b, my_configuration)
