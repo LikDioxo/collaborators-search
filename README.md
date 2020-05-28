@@ -1,4 +1,4 @@
-# coauthors-search
+# coauthors_search
 An package for finding coauthors from different sources for  example Google Scholar.
 
 fetch_author_by_name(name: str) - method in Fetch class returns list of Author objects.

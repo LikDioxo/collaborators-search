@@ -1,9 +1,9 @@
-from typing import Dict, Any
+from typing import Dict, Any, Union
 
 from graphviz import Graph, Digraph
 
 from coauthors_search.structures import Tree
-from coauthors_search.structures import Author
+from coauthors_search.structures import Author, AuthorCredentials
 from coauthors_search.utils import Fetch
 
 
@@ -11,29 +11,46 @@ def generate_graph(tree: Tree, target: Author, configuration: Dict[str, Any]):
     graph = None
 
     if configuration['graph_type'] == 'directed':
-        graph = Digraph()
+        graph = Digraph("Authors")
     else:
-        graph = Graph()
+        graph = Graph("Authors")
 
-    # if configuration['layout'] == 'horizontal':
-    #     graph.engine = 'neato'
+    try:
+        graph.format = configuration['format']
+    except KeyError:
+        ...
 
-    graph.name = "Authors"
-    graph.format = configuration['format']
+    additional_nodes_limit = 0
+    try:
+        additional_nodes_limit = configuration['additional_nodes']
+    except KeyError:
+        ...
+
+    main_branch_color = "BLACK"
+    try:
+        main_branch_color = configuration['main_branch_color']
+    except KeyError:
+        ...
+
+    additional_branch_color = "BLACK"
+    try:
+        additional_branch_color = configuration['additional_branch_color']
+    except KeyError:
+        ...
 
     main_branch = tree.tree[target.id]
-    additional_nodes_limit = configuration['additional_nodes']
-
     previous_node = None
     nodes = []
+
     for node in main_branch:
         Fetch.fetch_image(node)
         additional_nodes = 0
         nodes.append(node.id)
 
         for additional_node in node.coauthors:
-            if additional_node.id not in nodes and additional_nodes <= additional_nodes_limit:
-                print(additional_node)
+            if additional_node.id not in nodes and additional_nodes <= additional_nodes_limit and additional_node not in main_branch:
+                if isinstance(additional_node, AuthorCredentials):
+                    additional_node = additional_node._source.fetch_by_credentials(additional_node)
                 Fetch.fetch_image(additional_node)
                 additional_nodes += 1
                 graph.node(
@@ -42,7 +59,7 @@ def generate_graph(tree: Tree, target: Author, configuration: Dict[str, Any]):
                     {
                         'label': f"""<<TABLE border="0">
                         <TR>
-                            <TD  bgcolor="white" border="0">{additional_node.name}</TD>
+                            <TD  bgcolor="white" border="0">{additional_node.get_short_name(10)}</TD>
                         </TR>
                         </TABLE>>""",
                         'image': f'images/{additional_node.id}.png',
@@ -52,7 +69,8 @@ def generate_graph(tree: Tree, target: Author, configuration: Dict[str, Any]):
                         'width': '1',
                         'height': '1',
                         'imagescale': 'true',
-                        'fontsize': '10'
+                        'fontsize': '8',
+                        'color': additional_branch_color
                     }
                 )
                 graph.edge(node.id, additional_node.id)
@@ -65,7 +83,7 @@ def generate_graph(tree: Tree, target: Author, configuration: Dict[str, Any]):
             {
                 'label': f"""<<TABLE border="0">
                 <TR>
-                    <TD  bgcolor="white" border="0">{node.name}</TD>
+                    <TD  bgcolor="white" border="0">{node.get_short_name(10)}</TD>
                 </TR>
                 </TABLE>>""",
                 'image': f'images/{node.id}.png',
@@ -75,7 +93,8 @@ def generate_graph(tree: Tree, target: Author, configuration: Dict[str, Any]):
                 'width': '1',
                 'height': '1',
                 'imagescale': 'true',
-                'fontsize': '10'
+                'fontsize': '8',
+                'color': main_branch_color
             }
         )
 
@@ -83,9 +102,23 @@ def generate_graph(tree: Tree, target: Author, configuration: Dict[str, Any]):
             graph.edge(previous_node.id, node.id)
         previous_node = node
 
-    graph.view()
+    graph.node('legend', '', {
+        'label': f"""<
+            <TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4">
+             <TR>
+              <TD COLSPAN="2"><B>Legend</B></TD>
+             </TR>
+             <TR>
+              <TD>Main Branch</TD>
+              <TD BGCOLOR="{main_branch_color}"></TD>
+             </TR>
+             <TR>
+              <TD>Additional Branch</TD>
+              <TD BGCOLOR="{additional_branch_color}"></TD>
+             </TR>
+            </TABLE>
+           >""",
+        'shape': 'plaintext',
+    })
 
-
-def test(author: Author):
-    from coauthors_search.utils import Fetch
-    Fetch.fetch_image(author)
+    graph.view(cleanup=True)
