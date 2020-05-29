@@ -38,20 +38,15 @@ class Fetch:
 
 def create_dirs(dir_path: Path, graph_dir_path: Path):
     image_path = dir_path / "images"
-    try:
+
+    if not dir_path.exists():
         dir_path.mkdir(parents=True)
-    except FileExistsError:
-        ...
 
-    try:
-        image_path.mkdir(parents=True)
-    except FileExistsError:
-        ...
-
-    try:
+    if not graph_dir_path.exists():
         graph_dir_path.mkdir(parents=True)
-    except FileExistsError:
-        ...
+
+    if not image_path.exists():
+        image_path.mkdir(parents=True)
 
 
 def validate_configuration(requirements, default_configs):
