@@ -1,5 +1,6 @@
 from multiprocessing import Pool
-from os import makedirs, path
+from os import makedirs
+from pathlib import Path
 from requests import get
 from shutil import copyfileobj
 from typing import List
@@ -22,10 +23,10 @@ class Fetch:
         return pool.map(self.fetch_author_by_name, names)
 
     @staticmethod
-    def fetch_image(author: Author, file_path: str):
-        file_path = path.join(file_path, f'{author.id}.png')
+    def fetch_image(author: Author, file_path: Path):
+        file_path = file_path / f'{author.id}.png'
         author.picture_path = file_path
-        with open(file_path, 'wb') as file:
+        with file_path.open('wb') as file:
             try:
                 resp = get(author.url_picture, stream=True)
             except AttributeError:
@@ -36,23 +37,21 @@ class Fetch:
                 del resp
 
 
-def create_dirs(parent_path: str, dir_name: str, graph_dir_name: str):
-    parent_path = path.join(parent_path, dir_name)
-    image_path = path.join(parent_path, "images")
-    graph_path = path.join(parent_path, graph_dir_name)
+def create_dirs(dir_path: Path, graph_dir_path: Path):
+    image_path = dir_path / "images"
     try:
-        makedirs(parent_path)
-    except OSError:
+        dir_path.mkdir(parents=True)
+    except FileExistsError:
         ...
 
     try:
-        makedirs(image_path)
-    except OSError:
+        image_path.mkdir(parents=True)
+    except FileExistsError:
         ...
 
     try:
-        makedirs(graph_path)
-    except OSError:
+        graph_dir_path.mkdir(parents=True)
+    except FileExistsError:
         ...
 
 

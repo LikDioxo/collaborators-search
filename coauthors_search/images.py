@@ -55,7 +55,7 @@ def generate_graph2(tree: Tree, target: Author, *, configuration: Dict[str, Any]
                             <TD  bgcolor="white" border="0">{additional_node.get_short_name(10)}</TD>
                         </TR>
                         </TABLE>>""",
-                        'image': f'{img_path+additional_node.id}.png',
+                        'image': str(img_path/f'{additional_node.id}.png'),
                         'shape': 'plaintext',
                         'labelloc': 'b',
                         'fixedsize': 'true',
@@ -78,7 +78,7 @@ def generate_graph2(tree: Tree, target: Author, *, configuration: Dict[str, Any]
                     <TD  bgcolor="white" border="0">{node.get_short_name(10)}</TD>
                 </TR>
                 </TABLE>>""",
-                'image': f'{img_path+node.id}.png',
+                'image': str(img_path / f'{node.id}.png'),
                 'shape': 'plaintext',
                 'labelloc': 'b',
                 'fixedsize': 'true',
