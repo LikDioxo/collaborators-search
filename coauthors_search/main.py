@@ -4,7 +4,7 @@ from pathlib import Path
 from coauthors_search.integration.scholar import ScholarSource
 from coauthors_search.utils import Fetch, create_dirs
 from coauthors_search.structures import Tree
-from coauthors_search.images import generate_graph2
+from coauthors_search.images import generate_graph
 
 ROOT_DIR = Path(__file__).parent
 DIR_PATH = ROOT_DIR / "default"
@@ -26,4 +26,4 @@ if __name__ == '__main__':
         'graph_name': "test_graph_name"
     }
     create_dirs(DIR_PATH, GRAPH_DIR_PATH)
-    generate_graph2(my_tree, b, configuration=my_configuration)
+    generate_graph(my_tree, b, configuration=my_configuration)
