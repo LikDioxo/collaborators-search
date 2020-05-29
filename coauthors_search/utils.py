@@ -1,5 +1,4 @@
 from multiprocessing import Pool
-from os import makedirs
 from pathlib import Path
 from requests import get
 from shutil import copyfileobj

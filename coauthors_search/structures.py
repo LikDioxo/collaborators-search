@@ -1,6 +1,7 @@
 from collections import defaultdict
 from dataclasses import dataclass
-from typing import Dict, List, Union
+from pathlib import Path
+from typing import Dict, List
 
 
 @dataclass
@@ -18,7 +19,7 @@ class Author:
     coauthors: List[AuthorCredentials]
     url_picture: str
     _source: str
-    picture_path: str = None
+    picture_path: Path = None
 
     def get_short_name(self, quantity=25):
         return self.name[:quantity] + "..."

@@ -5,6 +5,7 @@ setup(
     version="0.0.1",
     install_requires=[
         'graphviz',
-        'scholarly=0.3.1'
+        'scholarly=0.3.1',
+        'requests'
     ]
 )
