@@ -11,6 +11,7 @@ DIR_PATH = ROOT_DIR / "default"
 GRAPH_DIR_PATH = DIR_PATH / "default_graph"
 
 if __name__ == '__main__':
+
     test = Fetch(ScholarSource())
     a = test.fetch_author_by_name('Андрій Стрюк')[0]
     b = test.fetch_author_by_name('Наталя Рашевська')[0]
