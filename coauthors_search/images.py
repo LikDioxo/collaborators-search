@@ -6,6 +6,7 @@ from coauthors_search.structures import Tree
 from coauthors_search.structures import Author, AuthorCredentials
 from coauthors_search.utils import Fetch, validate_configuration
 
+
 _REQUIREMENTS = ["graph_type", "image_path", "graph_path"]
 _DEFAULT_CONFIGS = {
     "graph_name": "Authors",
@@ -113,7 +114,3 @@ def generate_graph(tree: Tree, target: Author, *, configuration: Dict[str, Any])
     })
 
     graph.render(graph_name, graph_path, cleanup=True)
-
-
-
-
